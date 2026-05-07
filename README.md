@@ -68,6 +68,10 @@ Example tasks you can assign to agents:
 - Updating dependencies
 - Building and verifying UI components
 
+Launch Agent Manager
+- Press "Open Agent Manager" button from the title bar
+- Or press Ctrl + E
+
 ### Browser Integration
 
 Launch browser-dependent tasks from the Agent Manager. Agents can:
@@ -104,6 +108,203 @@ Antigravity supports multiple AI models for your tasks:
 - **Gemini 3 Flash** — Fast, lightweight option
 - **Claude Sonnet** — Anthropic's model family
 - **Open-source models** — Various community options
+
+---
+
+## Rules and Workflows
+
+Antigravity lets you customize agent behavior through **Rules** (persistent guidelines) and **Workflows** (reusable task sequences). Both are defined as simple Markdown files stored in your workspace.
+
+### Directory Structure
+
+Rules and workflows live inside a `.agents/` directory at the root of your workspace:
+
+```
+your-workspace/
+├── .agents/
+│   ├── rules/          # Workspace-level rules
+│   │   ├── code-style-guide.md
+│   │   └── code-generation-guide.md
+│   └── workflows/      # Workspace-level workflows
+│       ├── generate-unit-tests.md
+│       └── summarize.md
+```
+
+> **Note:** Antigravity also supports the older `.agent/` directory for backward compatibility. The `.agents/` directory is the recommended default.
+
+For **global** rules and workflows that apply across all your workspaces:
+
+| Scope              | Location                                              |
+| ------------------ | ----------------------------------------------------- |
+| **Global Rule**    | `~/.gemini/GEMINI.md`                                 |
+| **Global Workflow**| `~/.gemini/antigravity/global_workflows/<NAME>.md`    |
+| **Workspace Rule** | `<workspace>/.agents/rules/<NAME>.md`                 |
+| **Workspace Workflow** | `<workspace>/.agents/workflows/<NAME>.md`         |
+
+---
+
+### Rules
+
+Rules are system-level instructions that guide how the agent behaves. Each rule is a Markdown file with a **frontmatter trigger** and a **body** containing your instructions.
+
+#### Trigger Types
+
+| Trigger            | Behavior                                                                 |
+| ------------------ | ------------------------------------------------------------------------ |
+| `always_on`        | Automatically applied to **every** agent interaction.                    |
+| `manual`           | Only applied when you explicitly `@mention` the rule name in your prompt.|
+| `model_decision`   | The agent decides whether to apply the rule based on its `description`.  |
+| `glob`             | Automatically applied when working with files matching a pattern.        |
+
+#### How to Create a Rule
+
+1. **Via the UI:** Click the `...` menu in the Agent Manager panel → open **Customizations** → navigate to the **Rules** tab → click **"+ Workspace"**.
+2. **Manually:** Create a `.md` file inside `.agents/rules/` with the following format:
+
+```markdown
+---
+trigger: <trigger_type>
+description: <optional description for model_decision triggers>
+glob: <optional file pattern for glob triggers>
+---
+
+Your instructions go here in plain text or bullet points.
+```
+
+#### Examples
+
+**Always-on rule** — Enforce a coding style across all interactions:
+
+```markdown
+---
+trigger: always_on
+---
+
+* Make sure all the code is styled with PEP 8 style guide
+* Make sure all the code is properly commented
+```
+*Save as:* `.agents/rules/code-style-guide.md`
+
+**Always-on rule** — Guide code generation structure:
+
+```markdown
+---
+trigger: always_on
+---
+
+* The main method in main.py is the entry point to showcase functionality.
+* Do not generate code in the main method. Instead generate distinct functionality in a new file (eg. feature_x.py)
+* Then, generate example code to show the new functionality in a new method in main.py (eg. example_feature_x) and simply call that method from the main method.
+```
+*Save as:* `.agents/rules/code-generation-guide.md`
+
+**Manual rule** — Only apply when explicitly referenced with `@test-rule-1`:
+
+```markdown
+---
+trigger: manual
+---
+
+Always keep the response under 3 lines
+```
+*Save as:* `.agents/rules/test-rule-1.md`
+
+**Glob rule** — Automatically apply when editing TypeScript files:
+
+```markdown
+---
+trigger: glob
+glob: src/**/*.ts
+---
+
+* Use strict TypeScript — avoid `any` types
+* Prefer interfaces over type aliases for object shapes
+* All exported functions must have JSDoc comments
+```
+*Save as:* `.agents/rules/typescript-standards.md`
+
+**Model-decision rule** — Let the agent decide when this rule is relevant:
+
+```markdown
+---
+trigger: model_decision
+description: Guidelines for writing API endpoint handlers
+---
+
+* All API handlers must validate input parameters
+* Return consistent error response shapes with status codes
+* Log all errors with structured logging
+```
+*Save as:* `.agents/rules/api-handler-guide.md`
+
+---
+
+### Workflows
+
+Workflows define a **structured sequence of steps** that the agent follows to complete a repeatable task. They are triggered on-demand using a **slash command** (e.g., `/generate-unit-tests`).
+
+#### How to Create a Workflow
+
+1. **Via the UI:** Click the `...` menu in the Agent Manager panel → open **Customizations** → navigate to the **Workflows** tab → click **"+ Workspace"**.
+2. **Via the agent:** After completing a task manually, ask the agent to *"generate a workflow from what we just did"* — it will create a reusable workflow file automatically.
+3. **Manually:** Create a `.md` file inside `.agents/workflows/` with the following format:
+
+```markdown
+---
+description: <short description shown in the slash command menu>
+---
+
+Step-by-step instructions for the agent to follow.
+```
+
+#### Examples
+
+**Unit test generation workflow** — Triggered with `/generate-unit-tests`:
+
+```markdown
+---
+description: Unit tests
+---
+
+* Generate unit tests for each file and each method
+* Make sure the unit tests are named similar to files but with test_ prefix
+```
+*Save as:* `.agents/workflows/generate-unit-tests.md`
+
+**Summarization workflow** — Triggered with `/summarize`:
+
+```markdown
+---
+description: Summarize content into concise bullet points
+---
+
+Summarize the following content in 3 bullet points
+```
+*Save as:* `.agents/workflows/summarize.md`
+
+**Code review workflow** — A more detailed, multi-step example triggered with `/code-review`:
+
+```markdown
+---
+description: Perform a thorough code review on staged changes
+---
+
+1. Run `git diff --staged` to see all staged changes.
+2. For each changed file, analyze the diff and check for:
+   - Potential bugs or logic errors
+   - Security vulnerabilities
+   - Performance concerns
+   - Missing error handling
+3. Check that all new functions have proper docstrings and type hints.
+4. Verify that corresponding unit tests exist and cover the new code.
+5. Produce a summary report as an artifact with:
+   - A list of issues found (categorized by severity)
+   - Suggested fixes for each issue
+   - An overall assessment (approve / request changes)
+```
+*Save as:* `.agents/workflows/code-review.md`
+
+> **Tip:** You can chain workflows by having one workflow invoke another, enabling complex multi-stage automations.
 
 ---
 
