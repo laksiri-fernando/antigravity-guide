@@ -317,6 +317,94 @@ description: Perform a thorough code review on staged changes
 
 ---
 
+## Antigravity Tutorial
+
+### Build Snake Game
+
+#### Step 1: Plan 
+
+Before starting the prompt plan on a paper
+
+Snake Game - Game Rules:
+- Snake moves in one direction at a time
+- User can change direction using arrow keys (Up, Down, Left, Right)
+- Food appears randomly on the board
+- Snake grows when it eats food
+- Game ends when snake hits wall or itself
+- Keep score
+- User can restart the game
+
+Features:
+- Start the game using Space bar
+- Restart the game using R key
+
+Style:
+- Retro green and black CRT monitor style
+- Pixelated graphics
+- Simple chiptune music
+
+#### Step 2: Write the instructions
+
+Instructions:
+- Create a new folder named "snake-game" .
+- Write a simple snake game using HTML, CSS, and JavaScript only (no frameworks or libraries).
+- Use single index.html file to include all HTML, CSS, and JavaScript code.
+- Write the code in a clean, organized, and maintainable way.
+- Create a README.md file to document the code.
+- The game should follow the game rules mentioned above.
+- The game should follow the features mentioned above.
+- The game should follow the style mentioned above.
+
+#### Step 3: Write the prompt
+
+**Prompt:**
+
+"Create a new folder named "snake-game" with a snake game using HTML, CSS, and JavaScript only (no frameworks or libraries). Use single index.html file to include all HTML, CSS, and JavaScript code. Write the code in a clean, organized, and maintainable way. Create a README.md file to document the code. The game should follow the game rules mentioned below.
+
+Snake Game - Game Rules:
+- Snake moves in one direction at a time
+- User can change direction using arrow keys (Up, Down, Left, Right)
+- Food appears randomly on the board
+- Snake grows when it eats food
+- Game ends when snake hits wall or itself
+- Keep score
+- User can restart the game
+
+Features:
+- Start the game using Space bar
+- Restart the game using R key
+
+Style:
+- Retro green and black CRT monitor style
+- Pixelated graphics
+- Simple chiptune music."
+
+#### Step 4: Generate Code
+
+Generate the code using antigravity by giving the prompt in the prompt input box.
+
+#### Step 5: Review the code
+
+Review the generated code and make sure it follows the instructions.
+
+#### Step 6: Test the code
+
+Test the generated code and make sure it works as expected.
+
+#### Step 7: Add new features and refine the code
+
+Do not try to include all the features in the first prompt. Add features one by one and test the code after each feature is added.
+
+
+
+
+#### Step 8: Document the code
+
+Document the generated code and make sure it follows the instructions.
+
+
+
+
 ## References
 
 1. [Google Antigravity — Official Website](https://antigravity.google)
