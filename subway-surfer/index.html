@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Subway Surfer - 3D Endless Runner</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Load Three.js from CDN -->
+    <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.150.1/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.150.1/examples/jsm/"
+        }
+      }
+    </script>
+</head>
+<body>
+    <div id="game-container"></div>
+
+    <!-- UI Overlay -->
+    <div id="ui-layer">
+        <!-- Start Menu -->
+        <div id="start-menu" class="screen active">
+            <h1 class="game-title">CYBER<br>RUNNER</h1>
+            <p class="subtitle">Press SPACE to Start</p>
+            <button id="btn-start" class="btn primary">PLAY</button>
+            <div class="controls-info">
+                <p>Desktop: Arrows / WASD</p>
+                <p>Mobile: Swipe</p>
+            </div>
+            <button id="btn-sound-toggle-menu" class="btn small">Sound: ON</button>
+        </div>
+
+        <!-- HUD -->
+        <div id="hud" class="screen">
+            <div class="hud-top">
+                <div class="stat-box">
+                    <span class="label">SCORE</span>
+                    <span id="score-display" class="value">0</span>
+                </div>
+                <div class="stat-box">
+                    <span class="label">COINS</span>
+                    <span id="coins-display" class="value">0</span>
+                </div>
+                <div class="stat-box">
+                    <span class="label">HI-SCORE</span>
+                    <span id="high-score-hud" class="value">0</span>
+                </div>
+                <button id="btn-pause" class="btn-icon">⏸</button>
+            </div>
+            <div id="multiplier-display" class="multiplier hidden">x2</div>
+            <div id="powerup-display" class="powerup-container"></div>
+        </div>
+
+        <!-- Pause Menu -->
+        <div id="pause-menu" class="screen">
+            <h2>PAUSED</h2>
+            <button id="btn-resume" class="btn primary">RESUME</button>
+            <button id="btn-restart-pause" class="btn secondary">RESTART</button>
+            <button id="btn-sound-toggle-pause" class="btn secondary">Sound: ON</button>
+            <button id="btn-quit" class="btn danger">QUIT TO MENU</button>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div id="game-over-screen" class="screen">
+            <h2>GAME OVER</h2>
+            <div class="results">
+                <div class="result-row"><span>Score:</span> <span id="final-score">0</span></div>
+                <div class="result-row"><span>Coins:</span> <span id="final-coins">0</span></div>
+                <div class="result-row highlight"><span>High Score:</span> <span id="final-high-score">0</span></div>
+            </div>
+            <button id="btn-restart" class="btn primary">PLAY AGAIN</button>
+            <button id="btn-menu" class="btn secondary">MAIN MENU</button>
+        </div>
+    </div>
+
+    <!-- Main Module -->
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
