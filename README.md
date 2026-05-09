@@ -89,6 +89,38 @@ As agents work, they generate **Artifacts** — structured, reviewable evidence 
 
 ---
 
+## Skills
+
+**Skills** are specialized, reusable sets of instructions that empower Antigravity agents to perform specific tasks with high precision and consistency. Think of them as "mini-programs" or "expert behaviors" that you can teach your agents.
+
+### What are Skills?
+A skill is essentially a Markdown file containing a structured sequence of instructions, rules, and tool-use patterns. These files guide the agent through complex workflows that would otherwise require long, repetitive manual prompting.
+
+### Why use Skills?
+- **Consistency**: Ensure that tasks like unit test generation or code summarization always follow your project's specific standards.
+- **Efficiency**: Instead of explaining a complex process every time, you can invoke a skill with a single command.
+- **Automation**: Skills can chain multiple tool calls (running commands, editing files, searching the web) into a seamless autonomous workflow.
+
+### How to use Skills
+Skills are typically invoked via **slash commands** in the Agent Manager chat interface.
+
+1. **Invoke**: Type `/` followed by the skill name (e.g., `/generate-unit-tests`).
+2. **Context**: Provide any additional context if needed (e.g., `/generate-unit-tests for current file`).
+3. **Execution**: The agent will read the skill's instruction file and begin executing the steps autonomously.
+
+### Where are Skills stored?
+Skills are stored within your repository in specialized directories:
+- `.agent/workflows/`
+- `.agents/workflows/`
+
+### Examples of Skills
+- **`/generate-unit-tests`**: Automatically analyzes your code and creates comprehensive test suites using your preferred testing framework.
+- **`/summarize`**: Provides a high-level overview of a directory or a complex module, highlighting key functions and dependencies.
+- **`/refactor-pep8`**: Scans your Python files and applies formatting changes to ensure strict adherence to PEP 8 standards.
+- **`/security-audit`**: Runs a series of security scans and provides a report on potential vulnerabilities in your dependencies.
+
+---
+
 ## Extensions
 
 Since Antigravity is a VS Code fork, most VS Code extensions are compatible. However, there are some differences:
